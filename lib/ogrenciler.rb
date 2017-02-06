@@ -21,6 +21,11 @@ module Okul
 			@id ||= 0
 		end
 
+		protected
+		def id=(id)
+			@id = id
+		end
+
 		public
 		class << self
 
@@ -56,7 +61,7 @@ module Okul
 					row = row.split(';')
 
 					ogrenci = self.new
-					ogrenci.id = row[0].to_i
+					ogrenci.method(:id=).call row[0].to_i
 					ogrenci.adi = row[1]
 					ogrenci.soyadi = row[2]
 					ogrenci.dogum_tarihi = Time.new(row[3])
