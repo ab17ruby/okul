@@ -6,6 +6,6 @@ ogrenci.soyadi = "Balyali"
 ogrenci.dogum_tarihi = Time.new(2000, 12, 3)
 ogrenci.cinsiyet = "Erkek"
 
-ogrenci.add()
+ogrenci.save()
 
 puts "#{ogrenci.id} id ile ogrenci katyit oldu"
