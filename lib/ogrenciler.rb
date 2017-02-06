@@ -7,18 +7,47 @@ module Okul
 		DOSYA_ADI = 'db/ogrenciler.txt'
 
 		def save
-			auto_id
-			ogrenci = [@id, @adi, @soyadi, @dogum_tarihi, @cinsiyet]
+			if @id.nil?
+				auto_id	
+				ogrenci = [@id, @adi, @soyadi, @dogum_tarihi, @cinsiyet]
 
-			File.open(DOSYA_ADI, 'a') do |dosya|
-				dosya.puts ogrenci.join(';')
+				File.open(DOSYA_ADI, 'a') do |dosya|
+					dosya.puts ogrenci.join(';')
+				end
+			else
+				File.open(DOSYA_ADI, "w") do |file|
+					Ogrenciler.list.each do |ogrenci|
+						if ogrenci.id == @id
+							ogrenci = [@id, @adi, @soyadi, @dogum_tarihi, @cinsiyet] if ogrenci.id == @id
+							dosya.puts ogrenci.join(';')
+						else
+							ogrenci = [ogrenci.id, ogrenci.adi, ogrenci.soyadi, ogrenci.dogum_tarihi, ogrenci.cinsiyet]
+							dosya.puts ogrenci.join(';')
+						end
+					end
+				end
+			end
+		end
+
+		def delete
+			File.open(DOSYA_ADI, "w") do |file|
+				Ogrenciler.list.reject { |ogrenci| ogrenci.id == @id }.each do |ogr|
+					ogrenci = [ogrenci.id, ogrenci.adi, ogrenci.soyadi, ogrenci.dogum_tarihi, ogrenci.cinsiyet]
+					dosya.puts ogrenci.join(';')
+				end
 			end
 		end
 
 		private
 		def auto_id
-			@id = Ogrenciler.list.last.id.next
-			@id ||= 0
+			last_user = Ogrenciler.list.last
+			@id = last_user ? last_user.id.next : 1
+		end
+
+		def all_save(ogrenci, dosya)
+			ogrenci = [ogrenci.id, ogrenci.adi, ogrenci.soyadi, ogrenci.dogum_tarihi, ogrenci.cinsiyet]
+			dosya.puts ogrenci.join(';')
+			dosya
 		end
 
 		protected

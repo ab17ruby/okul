@@ -9,3 +9,6 @@ ogrenci.cinsiyet = "Erkek"
 ogrenci.save()
 
 puts "#{ogrenci.id} id ile ogrenci katyit oldu"
+
+ogrenci = Okul::Ogrenciler.list.first
+ogrenci.delete
