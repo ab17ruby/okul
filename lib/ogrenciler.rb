@@ -7,14 +7,6 @@ module Okul
 		DOSYA_ADI = 'db/ogrenciler.txt'
 
 		def save
-			ogrenci = [@id, @adi, @soyadi, @dogum_tarihi, @cinsiyet]
-
-			File.open(DOSYA_ADI, 'w') do |dosya|
-				dosya.puts ogrenci.join(';')
-			end
-		end
-
-		def add
 			auto_id
 			ogrenci = [@id, @adi, @soyadi, @dogum_tarihi, @cinsiyet]
 
