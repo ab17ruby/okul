@@ -15,14 +15,12 @@ module Okul
 					dosya.puts ogrenci.join(';')
 				end
 			else
-				File.open(DOSYA_ADI, "w") do |file|
-					Ogrenciler.list.each do |ogrenci|
+				Ogrenciler.list.each do |ogrenci|
+					File.open(DOSYA_ADI, "w") do |dosya|
 						if ogrenci.id == @id
-							ogrenci = [@id, @adi, @soyadi, @dogum_tarihi, @cinsiyet] if ogrenci.id == @id
-							dosya.puts ogrenci.join(';')
+							dosya.puts [@id, @adi, @soyadi, @dogum_tarihi, @cinsiyet].join(';')
 						else
-							ogrenci = [ogrenci.id, ogrenci.adi, ogrenci.soyadi, ogrenci.dogum_tarihi, ogrenci.cinsiyet]
-							dosya.puts ogrenci.join(';')
+							dosya.puts [ogrenci.id, ogrenci.adi, ogrenci.soyadi, ogrenci.dogum_tarihi, ogrenci.cinsiyet].join(';')
 						end
 					end
 				end
@@ -30,10 +28,9 @@ module Okul
 		end
 
 		def delete
-			File.open(DOSYA_ADI, "w") do |file|
-				Ogrenciler.list.reject { |ogrenci| ogrenci.id == @id }.each do |ogr|
-					ogrenci = [ogrenci.id, ogrenci.adi, ogrenci.soyadi, ogrenci.dogum_tarihi, ogrenci.cinsiyet]
-					dosya.puts ogrenci.join(';')
+			Ogrenciler.list.select { |ogrenci| ogrenci.id != @id }.each do |ogr|
+				File.open(DOSYA_ADI, 'w') do |dosya|
+					dosya.puts [ogr.id, ogr.adi, ogr.soyadi, ogr.dogum_tarihi, ogr.cinsiyet].join(';')
 				end
 			end
 		end
